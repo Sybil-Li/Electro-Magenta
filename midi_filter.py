@@ -28,10 +28,10 @@ for track in tracks.xreadlines():
 	except KeyError:
 		pass
 
+	index = 0
 	for midi_md5 in matches:
 		path = get_midi_path(track, midi_md5[0], 'matched')
-		try:
-			dst = 'electronic/' + track.strip('\n') + '.mid'
-			copyfile(path, dst)
-		except IOError:
-			pass
+		dst = 'electronic/' + track.strip('\n') + str(index) + '.mid'
+		copyfile(path, dst)
+		index = index + 1
+		count = count + 1
