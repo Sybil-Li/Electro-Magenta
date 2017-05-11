@@ -1,0 +1,63 @@
+======================Mac======================
+convert_dir_to_note_sequences --input_dir=/Users/Sybil/Documents/College/SeniorProject/electronic --output_file=/Users/Sybil/Documents/College/SeniorProject/notesequences.tfrecord
+
+
+melody_rnn_create_dataset --config='attention_rnn' --input=/Users/Sybil/Documents/College/SeniorProject/notesequences.tfrecord --output_dir=/Users/Sybil/Documents/College/SeniorProject/melody_rnn/sequence_examples --eval_ratio=0.10
+
+melody_rnn_train --config=attention_rnn --run_dir=/Users/Sybil/Documents/College/SeniorProject/melody_rnn/logdir/run1 --sequence_example_file=/Users/Sybil/Documents/College/SeniorProject/melody_rnn/sequence_examples/training_melodies.tfrecord --hparams="{'batch_size':64,'rnn_layer_sizes':[64,64]}" --num_training_steps=20000
+
+
+tensorboard --logdir=/Users/Sybil/Documents/College/SeniorProject/melody_rnn/logdir
+
+melody_rnn_generate --config=attention_rnn --run_dir=~/Documents/College/SeniorProject/pine/melody_rnn/logdir/final --hparams="{'batch_size':64,'rnn_layer_sizes':[64,64]}" --bundle_file=~/Documents/College/SeniorProject/my_attention_rnn_20000.mag  --save_generator_bundle
+
+melody_rnn_generate --config=attention_rnn --run_dir=/Users/Sybil/Documents/College/SeniorProject/melody_rnn/logdir/run1 --output_dir=/Users/Sybil/Documents/College/SeniorProject/generated/ --num_outputs=9 --num_steps=512 --hparams="{'batch_size':64,'rnn_layer_sizes':[64,64]}" --primer_melody="[55, -2, 55, -2, 43, -2, 55, -2, 55, -2, 43, -2, 55, -2, 55, -2, 43, -2, 55, -2, 55, -2, 43, -2, 55, -2, 43, -2, 55, -2, 43, -2, 53, -2, 53, -2, 41, -2, 53, -2, 53, -2, 41, -2, 53, -2, 53, -2, 41, -2, 53, -2, 53, -2, 41, -2, 53, -2, 41, -2, 53, -2, 41, -2, 60, -2, 60, -2, 48, -2, 60, -2, 60, -2, 48, -2, 60, -2, 48, -2, 60, -2, 60, -2, 48, -2, 60, -2, 60, -2, 48, -2, 60, -2, 48, -2]"
+
+melody_rnn_generate --config='attention_rnn' --bundle_file=/Users/Sybil/Documents/College/SeniorProject/attention_rnn.mag --output_dir=/Users/Sybil/Documents/College/SeniorProject/generated/pretrained --num_outputs=9 --num_steps=512 --primer_melody="[55, -2, 55, -2, 43, -2, 55, -2, 55, -2, 43, -2, 55, -2, 55, -2, 43, -2, 55, -2, 55, -2, 43, -2, 55, -2, 43, -2, 55, -2, 43, -2, 53, -2, 53, -2, 41, -2, 53, -2, 53, -2, 41, -2, 53, -2, 53, -2, 41, -2, 53, -2, 53, -2, 41, -2, 53, -2, 41, -2, 53, -2, 41, -2, 60, -2, 60, -2, 48, -2, 60, -2, 60, -2, 48, -2, 60, -2, 48, -2, 60, -2, 60, -2, 48, -2, 60, -2, 60, -2, 48, -2, 60, -2, 48, -2]"
+
+
+高do 60
+低do 48
+高fa 53
+低fa 41
+高so 55
+低so 43
+
+
+"[55, -2, 55, -2, 43, -2, 55, -2, 55, -2, 43, -2, 55, -2, 55, -2, 43, -2, 55, -2, 55, -2, 43, -2, 55, -2, 43, -2, 55, -2, 43, -2, 
+
+53, -2, 53, -2, 41, -2, 53, -2, 53, -2, 41, -2, 53, -2, 53, -2, 41, -2, 53, -2, 53, -2, 41, -2, 53, -2, 41, -2, 53, -2, 41, -2, 
+
+60, -2, 60, -2, 48, -2, 60, -2, 60, -2, 48, -2, 60, -2, 48, -2, 60, -2, 60, -2, 48, -2, 60, -2, 60, -2, 48, -2, 60, -2, 48, -2]"
+
+"[55, -2, 55, -2, 43, -2, 55, -2, 55, -2, 43, -2, 55, -2, 55, -2, 43, -2, 55, -2, 55, -2, 43, -2, 55, -2, 43, -2, 55, -2, 43, -2, 53, -2, 53, -2, 41, -2, 53, -2, 53, -2, 41, -2, 53, -2, 53, -2, 41, -2, 53, -2, 53, -2, 41, -2, 53, -2, 41, -2, 53, -2, 41, -2, 60, -2, 60, -2, 48, -2, 60, -2, 60, -2, 48, -2, 60, -2, 48, -2, 60, -2, 60, -2, 48, -2, 60, -2, 60, -2, 48, -2, 60, -2, 48, -2]"
+
+======================Pine======================
+convert_dir_to_note_sequences --input_dir=~/Desktop/electronic --output_file=~/Desktop/notesequences.tfrecord
+
+melody_rnn_create_dataset --config='attention_rnn' --input=~/Desktop/notesequences.tfrecord --output_dir=~/Desktop/melody_rnn/sequence_examples --eval_ratio=0.10
+
+hparams = {'rnn_layer_sizes': [64, 64], 'attn_length': 40, 'dropout_keep_prob': 0.5, 'batch_size': 64, 'decay_rate': 0.97, 'clip_norm': 3, 'initial_learning_rate': 0.001, 'decay_steps': 1000, 'skip_first_n_losses': 0}
+
+melody_rnn_train --config=attention_rnn --run_dir=~/Desktop/melody_rnn/logdir/run1 --sequence_example_file=~/Desktop/melody_rnn/sequence_examples/training_melodies.tfrecord --hparams="{'batch_size':64,'rnn_layer_sizes':[64,64], 'decay_steps': 1000}" --num_training_steps=40000
+
+run1: hparams="{'batch_size':64,'rnn_layer_sizes':[64,64]}" --num_training_steps=20000
+run2: hparams="{'batch_size':32,'rnn_layer_sizes':[64,64]}" --num_training_steps=20000
+run3: hparams="{'batch_size':64,'rnn_layer_sizes':[64,64], 'initial_learning_rate':0.01}" --num_training_steps=20000 崩了
+run3: hparams="{'batch_size':64,'rnn_layer_sizes':[64,64], 'decay_rate': 0.98}"
+run3: hparams="{'batch_size':64,'rnn_layer_sizes':[64,64], 'decay_steps': 10000}"
+
+
+
+
+
+======================Demo======================
+fluid-synth 
+
+magenta_midi --input_port="VMPK Output"  --output_port="FluidSynth virtual port (15602)"  --bundle_files=/Users/Sybil/Documents/College/SeniorProject/my_rnn.mag
+
+magenta_midi --input_port="Arturia MiniLab mkII"  --output_port="IAC Driver Bus 1"  --bundle_files=/Users/Sybil/Documents/College/SeniorProject/my_rnn1.mag
+
+
+
+melody_rnn_generate --config=attention_rnn --run_dir=/Users/Sybil/Documents/College/SeniorProject/melody_rnn/logdir/run1 --hparams="{'batch_size':64,'rnn_layer_sizes':[64,64]}"  --bundle_file=/Users/Sybil/Documents/College/SeniorProject/my_rnn1.mag --save_generator_bundle
